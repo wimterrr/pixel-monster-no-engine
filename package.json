@@ -5,6 +5,7 @@
   "scripts": {
     "build:content": "node scripts/build-content.mjs",
     "build:pages": "node scripts/build-pages.mjs",
+    "deploy": "node scripts/deploy.mjs",
     "test": "npm run build:content && node --test tests/*.test.mjs",
     "check": "npm run build:content && npm test",
     "serve": "python3 -m http.server 4173",
