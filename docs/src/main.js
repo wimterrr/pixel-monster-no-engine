@@ -210,7 +210,19 @@ function reloadState(state) {
   }
 }
 
-const bundle = await fetch("./generated/Route01.bundle.json").then((response) => response.json());
+let bundle;
+try {
+  const response = await fetch("./generated/Route01.bundle.json");
+  if (!response.ok) {
+    throw new Error(`Bundle fetch failed: ${response.status}`);
+  }
+  bundle = await response.json();
+} catch (error) {
+  battleTextNode.textContent = "Failed to load the compiled bundle.";
+  payloadNode.textContent = String(error?.message || error);
+  throw error;
+}
+
 const state = createInitialState(bundle);
 
 window.addEventListener("keydown", (event) => {

@@ -189,6 +189,22 @@ button:disabled {
 }
 
 @media (max-width: 900px) {
+  .shell {
+    padding: 16px 14px 24px;
+  }
+
+  .hero {
+    margin-bottom: 14px;
+  }
+
+  .hero h1 {
+    font-size: 46px;
+  }
+
+  .lede {
+    display: none;
+  }
+
   .playfield {
     grid-template-columns: 1fr;
   }

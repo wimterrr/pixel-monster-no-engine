@@ -5,8 +5,15 @@ const TILE_COLORS = {
 };
 
 function mixHex(base, mix, amount) {
-  const baseValue = Number.parseInt(base.replace("#", ""), 16);
-  const mixValue = Number.parseInt(mix.replace("#", ""), 16);
+  const normalizedBase = base.length === 4
+    ? `#${base[1]}${base[1]}${base[2]}${base[2]}${base[3]}${base[3]}`
+    : base;
+  const normalizedMix = mix.length === 4
+    ? `#${mix[1]}${mix[1]}${mix[2]}${mix[2]}${mix[3]}${mix[3]}`
+    : mix;
+
+  const baseValue = Number.parseInt(normalizedBase.replace("#", ""), 16);
+  const mixValue = Number.parseInt(normalizedMix.replace("#", ""), 16);
 
   const baseR = (baseValue >> 16) & 0xff;
   const baseG = (baseValue >> 8) & 0xff;
