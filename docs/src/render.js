@@ -63,6 +63,14 @@ export function drawGame(ctx, state) {
     ctx.fillStyle = "#f2e9c9";
     ctx.font = "16px monospace";
     ctx.fillText(`Encounter: ${state.battle.monsterName}`, 16, ctx.canvas.height - 28);
-    drawSprite(ctx, sprites, "sprout", ctx.canvas.width - scale - 18, ctx.canvas.height - scale - 18, scale);
+    const external = state.externalSprites?.sprout;
+    const size = 64;
+    const dx = ctx.canvas.width - size - 18;
+    const dy = ctx.canvas.height - size - 18;
+    if (external) {
+      ctx.drawImage(external, dx, dy, size, size);
+    } else {
+      drawSprite(ctx, sprites, "sprout", ctx.canvas.width - scale - 18, ctx.canvas.height - scale - 18, scale);
+    }
   }
 }

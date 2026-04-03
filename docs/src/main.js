@@ -27,6 +27,7 @@ function createInitialState(bundle) {
   return {
     bundle,
     sprites: createSprites(),
+    externalSprites: {},
     checkpointId: startCheckpoint.id,
     playerTile: { ...startCheckpoint.tile },
     roster: [],
@@ -253,6 +254,22 @@ try {
 }
 
 const state = createInitialState(bundle);
+
+async function tryLoadImage(url) {
+  const img = new Image();
+  img.decoding = "async";
+  img.src = url;
+  await img.decode();
+  return img;
+}
+
+// Non-blocking: if Replicate sprites exist, use them for battle flair.
+try {
+  state.externalSprites.sprout = await tryLoadImage("./assets/replicate/sprout3.png?v=1");
+  pushLog(state, "Loaded external sprout sprite.");
+} catch {
+  // Ignore: external assets are optional.
+}
 
 window.addEventListener("keydown", (event) => {
   const moves = {

@@ -45,6 +45,12 @@ await writeBundle(path.resolve(generatedDir, "Route01.bundle.json"), bundle);
 await fs.copyFile(path.resolve(rootDir, "index.html"), path.resolve(docsDir, "index.html"));
 await copyDir(path.resolve(rootDir, "src"), path.resolve(docsDir, "src"));
 await copyDir(path.resolve(rootDir, "generated"), path.resolve(docsDir, "generated"));
+// Optional generated assets (Replicate outputs, etc.).
+try {
+  await copyDir(path.resolve(rootDir, "assets"), path.resolve(docsDir, "assets"));
+} catch {
+  // assets/ is optional
+}
 await fs.writeFile(path.resolve(docsDir, ".nojekyll"), "", "utf8");
 
 console.log("Built docs/ for GitHub Pages.");
