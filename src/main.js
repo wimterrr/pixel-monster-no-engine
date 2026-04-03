@@ -1,5 +1,6 @@
 import { drawGame } from "./render.js";
 import { SAVE_KEY, deserializeSave, serializeSave } from "./save.js";
+import { createSprites } from "./sprites.js";
 
 const canvas = document.querySelector("#game");
 const ctx = canvas.getContext("2d");
@@ -25,6 +26,7 @@ function createInitialState(bundle) {
 
   return {
     bundle,
+    sprites: createSprites(),
     checkpointId: startCheckpoint.id,
     playerTile: { ...startCheckpoint.tile },
     roster: [],
