@@ -223,10 +223,23 @@ function reloadState(state) {
 
 let bundle;
 try {
-  const response = await fetch("./generated/Route01.bundle.json");
+  const primaryUrl = new URL("./generated/Route01.bundle.json", window.location.href).toString();
+  let response = await fetch(primaryUrl);
+
+  if (!response.ok) {
+    const owner = (window.location.hostname || "").split(".")[0];
+    const repo = (window.location.pathname || "").split("/").filter(Boolean)[0];
+
+    if (owner && repo) {
+      const fallbackUrl = `https://raw.githubusercontent.com/${owner}/${repo}/main/docs/generated/Route01.bundle.json`;
+      response = await fetch(fallbackUrl, { cache: "no-store" });
+    }
+  }
+
   if (!response.ok) {
     throw new Error(`Bundle fetch failed: ${response.status}`);
   }
+
   bundle = await response.json();
 } catch (error) {
   battleTextNode.textContent = "Failed to load the compiled bundle.";
