@@ -36,7 +36,8 @@ function makeSpriteSheetCanvas(width, height) {
 
 export function createSprites() {
   const tile = 16;
-  const sheet = makeSpriteSheetCanvas(64, 64);
+  // 16px grid: keep tiles in the first row, then allocate room for basic sprite frames.
+  const sheet = makeSpriteSheetCanvas(128, 64);
   const imageData = sheet.ctx.createImageData(sheet.canvas.width, sheet.canvas.height);
 
   // Palette (soft Pokemon-like, limited).
@@ -80,19 +81,43 @@ export function createSprites() {
   }
   strokeRect(imageData, tile * 2, 0, tile, tile, ink);
 
-  // Sprite 3: player (simple chibi)
-  const px = 0;
-  const py = tile;
-  fillRect(imageData, px, py, tile, tile, [0, 0, 0, 0]);
-  fillRect(imageData, px + 6, py + 3, 4, 4, playerA); // head
-  fillRect(imageData, px + 5, py + 7, 6, 5, playerB); // body
-  fillRect(imageData, px + 5, py + 12, 2, 3, ink); // left leg
-  fillRect(imageData, px + 9, py + 12, 2, 3, ink); // right leg
-  strokeRect(imageData, px + 4, py + 2, 8, 11, ink);
+  function drawPlayerFrame(x0, y0, facing, step) {
+    fillRect(imageData, x0, y0, tile, tile, [0, 0, 0, 0]);
 
-  // Sprite 4: monster (sprout)
-  const mx = tile;
-  const my = tile;
+    const headX = x0 + 6;
+    const headY = y0 + 3;
+    fillRect(imageData, headX, headY, 4, 4, playerA); // head
+    fillRect(imageData, x0 + 5, y0 + 7, 6, 5, playerB); // body
+
+    // Legs: toggle one pixel to imply walking.
+    const stepOffset = step === 1 ? 1 : 0;
+    const leftLegX = x0 + 5 + (facing === "left" ? -stepOffset : 0);
+    const rightLegX = x0 + 9 + (facing === "right" ? stepOffset : 0);
+    fillRect(imageData, leftLegX, y0 + 12, 2, 3, ink);
+    fillRect(imageData, rightLegX, y0 + 12, 2, 3, ink);
+
+    // Facing hint: a tiny accent pixel on the side you're facing.
+    if (facing === "left") putPixel(imageData, x0 + 4, y0 + 9, playerA[0], playerA[1], playerA[2]);
+    if (facing === "right") putPixel(imageData, x0 + 11, y0 + 9, playerA[0], playerA[1], playerA[2]);
+    if (facing === "up") putPixel(imageData, x0 + 8, y0 + 2, playerA[0], playerA[1], playerA[2]);
+    if (facing === "down") putPixel(imageData, x0 + 8, y0 + 14, playerA[0], playerA[1], playerA[2]);
+
+    strokeRect(imageData, x0 + 4, y0 + 2, 8, 11, ink);
+  }
+
+  const playerRowY = tile;
+  drawPlayerFrame(tile * 0, playerRowY, "down", 0);
+  drawPlayerFrame(tile * 1, playerRowY, "down", 1);
+  drawPlayerFrame(tile * 2, playerRowY, "up", 0);
+  drawPlayerFrame(tile * 3, playerRowY, "up", 1);
+  drawPlayerFrame(tile * 4, playerRowY, "left", 0);
+  drawPlayerFrame(tile * 5, playerRowY, "left", 1);
+  drawPlayerFrame(tile * 6, playerRowY, "right", 0);
+  drawPlayerFrame(tile * 7, playerRowY, "right", 1);
+
+  // Monster (sprout) frame 0.
+  const mx = 0;
+  const my = tile * 2;
   fillRect(imageData, mx, my, tile, tile, [0, 0, 0, 0]);
   fillRect(imageData, mx + 6, my + 8, 4, 4, monsterA);
   fillRect(imageData, mx + 5, my + 11, 6, 2, monsterB);
@@ -101,9 +126,9 @@ export function createSprites() {
   putPixel(imageData, mx + 8, my + 10, ink[0], ink[1], ink[2]);
   strokeRect(imageData, mx + 4, my + 7, 8, 7, ink);
 
-  // Sprite 5: UI window corner (tiny 9-slice seed)
+  // UI window corner (tiny 9-slice seed)
   const ux = tile * 2;
-  const uy = tile;
+  const uy = tile * 2;
   fillRect(imageData, ux, uy, tile, tile, [0, 0, 0, 0]);
   fillRect(imageData, ux + 2, uy + 2, 12, 12, [242, 233, 201]);
   strokeRect(imageData, ux + 1, uy + 1, 14, 14, ink);
@@ -120,9 +145,17 @@ export function createSprites() {
       wall: { x: tile * 2, y: 0 }
     },
     sprites: {
-      player: { x: 0, y: tile },
-      sprout: { x: tile, y: tile }
+      // Player: 4 directions x 2 steps.
+      player_down_0: { x: tile * 0, y: tile },
+      player_down_1: { x: tile * 1, y: tile },
+      player_up_0: { x: tile * 2, y: tile },
+      player_up_1: { x: tile * 3, y: tile },
+      player_left_0: { x: tile * 4, y: tile },
+      player_left_1: { x: tile * 5, y: tile },
+      player_right_0: { x: tile * 6, y: tile },
+      player_right_1: { x: tile * 7, y: tile },
+      // Monsters.
+      sprout_0: { x: 0, y: tile * 2 }
     }
   };
 }
-

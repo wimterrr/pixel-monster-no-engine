@@ -28,8 +28,14 @@ function createInitialState(bundle) {
     bundle,
     sprites: createSprites(),
     externalSprites: {},
+    render: {
+      // Keep it simple for now: 16px tiles * 3 = 48px per tile.
+      zoom: 3
+    },
     checkpointId: startCheckpoint.id,
     playerTile: { ...startCheckpoint.tile },
+    playerFacing: "down",
+    playerStep: 0,
     roster: [],
     inventory: {
       captureOrb: 1
@@ -128,6 +134,13 @@ function movePlayer(state, dx, dy) {
     return;
   }
 
+  if (dx !== 0 || dy !== 0) {
+    if (dy < 0) state.playerFacing = "up";
+    if (dy > 0) state.playerFacing = "down";
+    if (dx < 0) state.playerFacing = "left";
+    if (dx > 0) state.playerFacing = "right";
+  }
+
   const nextX = state.playerTile.x + dx;
   const nextY = state.playerTile.y + dy;
 
@@ -137,6 +150,7 @@ function movePlayer(state, dx, dy) {
   }
 
   state.playerTile = { x: nextX, y: nextY };
+  state.playerStep = (state.playerStep + 1) % 2;
 
   const checkpoint = findCheckpoint(state);
   if (checkpoint) {
@@ -227,7 +241,7 @@ function reloadState(state) {
 let bundle;
 try {
   const primaryUrl = new URL("./generated/Route01.bundle.json", window.location.href);
-  primaryUrl.searchParams.set("v", "2");
+  primaryUrl.searchParams.set("v", "3");
   let response = await fetch(primaryUrl.toString(), { cache: "no-store" });
   let attempted = response.url || primaryUrl.toString();
 
@@ -255,6 +269,16 @@ try {
 
 const state = createInitialState(bundle);
 
+// Keep canvas resolution tied to bundle dimensions so the map reads clearly on desktop/mobile.
+function syncCanvasSize() {
+  const tileSize = state.bundle.tileSize || 16;
+  const zoom = state.render?.zoom || 3;
+  canvas.width = state.bundle.map.width * tileSize * zoom;
+  canvas.height = state.bundle.map.height * tileSize * zoom;
+}
+
+syncCanvasSize();
+
 async function tryLoadImage(url) {
   const img = new Image();
   img.decoding = "async";
@@ -265,7 +289,7 @@ async function tryLoadImage(url) {
 
 // Non-blocking: if Replicate sprites exist, use them for battle flair.
 try {
-  state.externalSprites.sprout = await tryLoadImage("./assets/replicate/sprout3.png?v=1");
+  state.externalSprites.sprout = await tryLoadImage("./assets/replicate/sprout3.png?v=2");
   pushLog(state, "Loaded external sprout sprite.");
 } catch {
   // Ignore: external assets are optional.
