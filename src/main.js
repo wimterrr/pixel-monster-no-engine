@@ -223,8 +223,10 @@ function reloadState(state) {
 
 let bundle;
 try {
-  const primaryUrl = new URL("./generated/Route01.bundle.json", window.location.href).toString();
-  let response = await fetch(primaryUrl);
+  const primaryUrl = new URL("./generated/Route01.bundle.json", window.location.href);
+  primaryUrl.searchParams.set("v", "1");
+  let response = await fetch(primaryUrl.toString(), { cache: "no-store" });
+  let attempted = response.url || primaryUrl.toString();
 
   if (!response.ok) {
     const owner = (window.location.hostname || "").split(".")[0];
@@ -233,11 +235,12 @@ try {
     if (owner && repo) {
       const fallbackUrl = `https://raw.githubusercontent.com/${owner}/${repo}/main/docs/generated/Route01.bundle.json`;
       response = await fetch(fallbackUrl, { cache: "no-store" });
+      attempted = `${attempted} -> ${fallbackUrl}`;
     }
   }
 
   if (!response.ok) {
-    throw new Error(`Bundle fetch failed: ${response.status}`);
+    throw new Error(`Bundle fetch failed: ${response.status} (${attempted})`);
   }
 
   bundle = await response.json();
