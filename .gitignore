@@ -1,6 +1,7 @@
 node_modules/
 /generated/
 dist/
+.env
 .DS_Store
 npm-debug.log*
 *.log
