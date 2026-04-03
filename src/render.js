@@ -1,8 +1,27 @@
 const TILE_COLORS = {
-  0: "#8a724b",
-  1: "#5c8a53",
-  2: "#304437"
+  0: "#b49363",
+  1: "#74b86d",
+  2: "#3b5a46"
 };
+
+function mixHex(base, mix, amount) {
+  const baseValue = Number.parseInt(base.replace("#", ""), 16);
+  const mixValue = Number.parseInt(mix.replace("#", ""), 16);
+
+  const baseR = (baseValue >> 16) & 0xff;
+  const baseG = (baseValue >> 8) & 0xff;
+  const baseB = baseValue & 0xff;
+
+  const mixR = (mixValue >> 16) & 0xff;
+  const mixG = (mixValue >> 8) & 0xff;
+  const mixB = mixValue & 0xff;
+
+  const r = Math.round(baseR + (mixR - baseR) * amount);
+  const g = Math.round(baseG + (mixG - baseG) * amount);
+  const b = Math.round(baseB + (mixB - baseB) * amount);
+
+  return `rgb(${r}, ${g}, ${b})`;
+}
 
 export function drawGame(ctx, state) {
   const { bundle } = state;
@@ -13,14 +32,25 @@ export function drawGame(ctx, state) {
   for (let y = 0; y < bundle.map.height; y += 1) {
     for (let x = 0; x < bundle.map.width; x += 1) {
       const index = y * bundle.map.width + x;
-      ctx.fillStyle = TILE_COLORS[bundle.map.ground[index]] ?? "#555";
+      const base = TILE_COLORS[bundle.map.ground[index]] ?? "#555";
+      // Tiny per-tile variance so the map doesn't collapse into a flat dark block on mobile.
+      const variance = (index % 7) * 0.014;
+      ctx.fillStyle = mixHex(base, "#ffffff", variance);
       ctx.fillRect(x * scale, y * scale, scale, scale);
 
       if (bundle.map.ground[index] === 1) {
-        ctx.fillStyle = "rgba(255, 255, 255, 0.06)";
+        ctx.fillStyle = "rgba(255, 255, 255, 0.10)";
         ctx.fillRect(x * scale + 4, y * scale + 6, 6, 10);
         ctx.fillRect(x * scale + 18, y * scale + 4, 5, 12);
       }
+
+      if (bundle.map.collision[index] === 1) {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.18)";
+        ctx.fillRect(x * scale, y * scale, scale, scale);
+      }
+
+      ctx.strokeStyle = "rgba(0, 0, 0, 0.08)";
+      ctx.strokeRect(x * scale + 0.5, y * scale + 0.5, scale - 1, scale - 1);
     }
   }
 
