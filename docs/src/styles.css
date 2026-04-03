@@ -78,6 +78,50 @@ body {
   gap: 14px;
 }
 
+.hudbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 16px;
+  background: rgba(242, 233, 201, 0.10);
+  border: 1px solid rgba(242, 233, 201, 0.18);
+}
+
+.hud {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: #f2e9c9;
+}
+
+.hud strong {
+  font-weight: 700;
+  color: var(--accent-soft);
+}
+
+.menu-btn {
+  display: none;
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: rgba(214, 97, 59, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.battle-strip {
+  border-radius: 16px;
+  padding: 14px;
+  background: rgba(242, 233, 201, 0.10);
+  border: 1px solid rgba(242, 233, 201, 0.18);
+}
+
+.battle-strip p {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
 .mobile-controls {
   display: none;
   gap: 10px;
@@ -116,6 +160,29 @@ body {
 .panel {
   display: grid;
   gap: 14px;
+}
+
+.panel-top {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 2px 8px;
+}
+
+.panel-title {
+  margin: 0;
+  font-size: 16px;
+  color: var(--ink);
+}
+
+.panel-close {
+  background: rgba(26, 36, 27, 0.12);
+  color: var(--ink);
+  border-radius: 12px;
+}
+
+.panel-backdrop {
+  display: none;
 }
 
 .card {
@@ -211,5 +278,37 @@ button:disabled {
 
   .mobile-controls {
     display: grid;
+  }
+
+  .menu-btn {
+    display: inline-flex;
+  }
+
+  .panel-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 20;
+  }
+
+  .panel {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    max-height: 70vh;
+    overflow: auto;
+    z-index: 30;
+    transform: translateY(120%);
+    transition: transform 180ms ease;
+  }
+
+  .panel.open {
+    transform: translateY(0);
+  }
+
+  .panel-top {
+    display: flex;
   }
 }

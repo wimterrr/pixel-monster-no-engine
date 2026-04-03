@@ -25,27 +25,32 @@
             <button class="dpad down" data-move="down" type="button">DOWN</button>
             <button class="dpad right" data-move="right" type="button">RIGHT</button>
           </div>
+          <div class="hudbar">
+            <div id="hud" class="hud" aria-label="HUD"></div>
+            <button id="menu-btn" class="menu-btn" type="button">MENU</button>
+          </div>
+          <div class="battle-strip">
+            <p id="battle-text">Step into grass to trigger the first encounter.</p>
+            <div class="actions">
+              <button id="fight-btn" disabled type="button">Fight</button>
+              <button id="capture-btn" disabled type="button">Capture</button>
+            </div>
+            <div class="actions">
+              <button id="save-btn" type="button">Save Receipt</button>
+              <button id="reload-btn" type="button">Reload Save</button>
+            </div>
+            <pre id="payload" class="payload">No battle payload yet.</pre>
+          </div>
         </div>
+        <div id="panel-backdrop" class="panel-backdrop" hidden></div>
         <aside class="panel">
+          <div class="panel-top">
+            <h2 class="panel-title">Menu</h2>
+            <button id="panel-close" class="panel-close" type="button">Close</button>
+          </div>
           <div class="card">
             <h2>Reload Receipt</h2>
             <dl id="receipt" class="receipt"></dl>
-          </div>
-          <div class="card">
-            <h2>Battle</h2>
-            <p id="battle-text">Step into grass to trigger the first encounter.</p>
-            <div class="actions">
-              <button id="fight-btn" disabled>Fight</button>
-              <button id="capture-btn" disabled>Capture</button>
-            </div>
-          </div>
-          <div class="card">
-            <h2>Run State</h2>
-            <div class="actions">
-              <button id="save-btn">Save Receipt</button>
-              <button id="reload-btn">Reload Save</button>
-            </div>
-            <pre id="payload" class="payload">No battle payload yet.</pre>
           </div>
           <div class="card">
             <h2>Log</h2>

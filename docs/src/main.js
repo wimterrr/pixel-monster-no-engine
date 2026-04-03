@@ -12,6 +12,11 @@ const captureButton = document.querySelector("#capture-btn");
 const saveButton = document.querySelector("#save-btn");
 const reloadButton = document.querySelector("#reload-btn");
 const moveButtons = Array.from(document.querySelectorAll("[data-move]"));
+const hudNode = document.querySelector("#hud");
+const menuButton = document.querySelector("#menu-btn");
+const panelNode = document.querySelector(".panel");
+const panelCloseButton = document.querySelector("#panel-close");
+const panelBackdrop = document.querySelector("#panel-backdrop");
 
 function createInitialState(bundle) {
   const startCheckpoint = bundle.checkpoints.find(
@@ -95,6 +100,12 @@ function syncUi(state) {
   captureButton.disabled = !state.battle;
 
   logNode.innerHTML = state.log.map((item) => `<li>${item}</li>`).join("");
+
+  hudNode.innerHTML = `
+    <span><strong>CP</strong> ${state.checkpointId}</span>
+    <span><strong>Orbs</strong> ${state.inventory.captureOrb}</span>
+    <span><strong>Roster</strong> ${state.roster.length}</span>
+  `;
   drawGame(ctx, state);
 }
 
@@ -311,3 +322,15 @@ reloadButton.addEventListener("click", () => {
 });
 
 syncUi(state);
+
+function setPanelOpen(open) {
+  if (!panelNode || !panelBackdrop) {
+    return;
+  }
+  panelNode.classList.toggle("open", open);
+  panelBackdrop.hidden = !open;
+}
+
+menuButton?.addEventListener("click", () => setPanelOpen(true));
+panelCloseButton?.addEventListener("click", () => setPanelOpen(false));
+panelBackdrop?.addEventListener("click", () => setPanelOpen(false));
