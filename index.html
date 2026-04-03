@@ -15,7 +15,7 @@
         }
       })();
     </script>
-    <link rel="stylesheet" href="./src/styles.css?v=2" />
+    <link rel="stylesheet" href="./src/styles.css?v=3" />
   </head>
   <body>
     <main class="shell">
@@ -29,12 +29,12 @@
       </section>
       <section class="playfield">
         <div class="stage">
-          <canvas id="game" width="320" height="256" aria-label="Route01 canvas"></canvas>
+          <canvas id="game" width="480" height="384" aria-label="Route01 canvas"></canvas>
           <div class="mobile-controls" role="group" aria-label="Movement controls">
-            <button class="dpad up" data-move="up" type="button">UP</button>
-            <button class="dpad left" data-move="left" type="button">LEFT</button>
-            <button class="dpad down" data-move="down" type="button">DOWN</button>
-            <button class="dpad right" data-move="right" type="button">RIGHT</button>
+            <button class="dpad up" data-move="up" type="button" aria-label="Move up">▲</button>
+            <button class="dpad left" data-move="left" type="button" aria-label="Move left">◀</button>
+            <button class="dpad down" data-move="down" type="button" aria-label="Move down">▼</button>
+            <button class="dpad right" data-move="right" type="button" aria-label="Move right">▶</button>
           </div>
           <div class="hudbar">
             <div id="hud" class="hud" aria-label="HUD"></div>
@@ -70,6 +70,6 @@
         </aside>
       </section>
     </main>
-    <script type="module" src="./src/main.js?v=2"></script>
+    <script type="module" src="./src/main.js?v=3"></script>
   </body>
 </html>

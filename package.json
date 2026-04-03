@@ -7,6 +7,7 @@
     "build:pages": "node scripts/build-pages.mjs",
     "deploy": "node scripts/deploy.mjs",
     "replicate": "node scripts/replicate-generate.mjs",
+    "replicate:batch": "node scripts/replicate-batch.mjs",
     "test": "npm run build:content && node --test tests/*.test.mjs",
     "check": "npm run build:content && npm test",
     "serve": "python3 -m http.server 4173",

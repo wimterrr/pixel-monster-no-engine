@@ -31,7 +31,10 @@ function drawSprite(ctx, sprites, spriteName, dx, dy, scale) {
 export function drawGame(ctx, state) {
   const { bundle } = state;
   const { sprites } = state;
-  const scale = 32;
+  const zoom = state.render?.zoom || 3;
+  const scale = (bundle.tileSize || 16) * zoom;
+  const overlayHeight = Math.round(scale * 2.25);
+  const fontSize = Math.max(12, Math.round(scale * 0.35));
 
   ctx.imageSmoothingEnabled = false;
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -55,22 +58,33 @@ export function drawGame(ctx, state) {
     ctx.fillRect(checkpoint.tile.x * scale + 4, checkpoint.tile.y * scale + 4, scale - 8, scale - 8);
   }
 
-  drawSprite(ctx, sprites, "player", state.playerTile.x * scale, state.playerTile.y * scale, scale);
+  drawSprite(
+    ctx,
+    sprites,
+    `player_${state.playerFacing}_${state.playerStep}`,
+    state.playerTile.x * scale,
+    state.playerTile.y * scale,
+    scale
+  );
 
   if (state.battle) {
     ctx.fillStyle = "rgba(8, 12, 10, 0.72)";
-    ctx.fillRect(0, ctx.canvas.height - 68, ctx.canvas.width, 68);
+    ctx.fillRect(0, ctx.canvas.height - overlayHeight, ctx.canvas.width, overlayHeight);
     ctx.fillStyle = "#f2e9c9";
-    ctx.font = "16px monospace";
-    ctx.fillText(`Encounter: ${state.battle.monsterName}`, 16, ctx.canvas.height - 28);
+    ctx.font = `${fontSize}px monospace`;
+    ctx.fillText(
+      `Encounter: ${state.battle.monsterName}`,
+      Math.round(scale * 0.35),
+      ctx.canvas.height - Math.round(overlayHeight * 0.42)
+    );
     const external = state.externalSprites?.sprout;
-    const size = 64;
-    const dx = ctx.canvas.width - size - 18;
-    const dy = ctx.canvas.height - size - 18;
+    const size = Math.round(scale * 1.4);
+    const dx = ctx.canvas.width - size - Math.round(scale * 0.35);
+    const dy = ctx.canvas.height - size - Math.round(scale * 0.35);
     if (external) {
       ctx.drawImage(external, dx, dy, size, size);
     } else {
-      drawSprite(ctx, sprites, "sprout", ctx.canvas.width - scale - 18, ctx.canvas.height - scale - 18, scale);
+      drawSprite(ctx, sprites, "sprout_0", dx, dy, size);
     }
   }
 }
