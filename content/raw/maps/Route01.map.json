@@ -1,0 +1,79 @@
+{
+  "routeId": "Route01",
+  "width": 10,
+  "height": 8,
+  "tilewidth": 16,
+  "tileheight": 16,
+  "layers": [
+    {
+      "type": "tilelayer",
+      "name": "ground",
+      "width": 10,
+      "height": 8,
+      "data": [
+        2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+        2, 0, 0, 0, 0, 1, 1, 1, 1, 2,
+        2, 0, 0, 0, 0, 1, 1, 1, 1, 2,
+        2, 0, 0, 0, 0, 1, 1, 1, 1, 2,
+        2, 0, 0, 0, 0, 1, 1, 1, 1, 2,
+        2, 0, 0, 0, 0, 1, 1, 1, 1, 2,
+        2, 0, 0, 0, 0, 0, 0, 0, 0, 2,
+        2, 2, 2, 2, 2, 2, 2, 2, 2, 2
+      ]
+    },
+    {
+      "type": "tilelayer",
+      "name": "collision",
+      "width": 10,
+      "height": 8,
+      "data": [
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+      ]
+    },
+    {
+      "type": "objectgroup",
+      "name": "markers",
+      "objects": [
+        {
+          "id": 1,
+          "name": "Route01 Start",
+          "class": "checkpoint",
+          "x": 32,
+          "y": 32,
+          "width": 16,
+          "height": 16,
+          "properties": [
+            {
+              "name": "checkpointId",
+              "type": "string",
+              "value": "route01_start"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "North Grass",
+          "class": "encounter_zone",
+          "x": 80,
+          "y": 16,
+          "width": 64,
+          "height": 80,
+          "properties": [
+            {
+              "name": "encounterId",
+              "type": "string",
+              "value": "route01_sprout"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

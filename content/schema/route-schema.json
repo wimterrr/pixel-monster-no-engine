@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "requiredLayers": {
+    "ground": "tilelayer",
+    "collision": "tilelayer",
+    "markers": "objectgroup"
+  },
+  "markerClasses": {
+    "checkpoint": {
+      "requiredProperties": [
+        "checkpointId"
+      ]
+    },
+    "encounter_zone": {
+      "requiredProperties": [
+        "encounterId"
+      ]
+    }
+  }
+}

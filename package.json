@@ -1,0 +1,13 @@
+{
+  "name": "pixel-monster-no-engine",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:content": "node scripts/build-content.mjs",
+    "build:pages": "node scripts/build-pages.mjs",
+    "test": "npm run build:content && node --test tests/*.test.mjs",
+    "check": "npm run build:content && npm test",
+    "serve": "python3 -m http.server 4173",
+    "serve:docs": "python3 -m http.server 4173 --directory docs"
+  }
+}

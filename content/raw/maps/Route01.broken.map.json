@@ -1,0 +1,71 @@
+{
+  "routeId": "Route01Broken",
+  "width": 4,
+  "height": 4,
+  "tilewidth": 16,
+  "tileheight": 16,
+  "layers": [
+    {
+      "type": "tilelayer",
+      "name": "ground",
+      "width": 4,
+      "height": 4,
+      "data": [
+        0, 0, 0, 0,
+        0, 0, 0, 0,
+        0, 0, 0, 0,
+        0, 0, 0, 0
+      ]
+    },
+    {
+      "type": "tilelayer",
+      "name": "collision",
+      "width": 4,
+      "height": 4,
+      "data": [
+        0, 0, 0, 0,
+        0, 0, 0, 0,
+        0, 0, 0, 0,
+        0, 0, 0, 0
+      ]
+    },
+    {
+      "type": "objectgroup",
+      "name": "markers",
+      "objects": [
+        {
+          "id": 1,
+          "name": "Broken Start",
+          "class": "checkpoint",
+          "x": 16,
+          "y": 16,
+          "width": 16,
+          "height": 16,
+          "properties": [
+            {
+              "name": "checkpointId",
+              "type": "string",
+              "value": "broken_start"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Broken Grass",
+          "class": "encounter_zone",
+          "x": 16,
+          "y": 16,
+          "width": 16,
+          "height": 16,
+          "properties": [
+            {
+              "name": "encounterId",
+              "type": "string",
+              "value": "missing_encounter"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

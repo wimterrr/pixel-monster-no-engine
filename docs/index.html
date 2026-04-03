@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pixel Monster No Engine</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <p class="eyebrow">Compiler-first route slice</p>
+        <h1>Route01</h1>
+        <p class="lede">
+          Runtime only reads the compiled bundle. Walk into tall grass, trigger one encounter,
+          capture Sprout, then prove the reload receipt survives.
+        </p>
+      </section>
+      <section class="playfield">
+        <canvas id="game" width="320" height="256" aria-label="Route01 canvas"></canvas>
+        <aside class="panel">
+          <div class="card">
+            <h2>Reload Receipt</h2>
+            <dl id="receipt" class="receipt"></dl>
+          </div>
+          <div class="card">
+            <h2>Battle</h2>
+            <p id="battle-text">Step into grass to trigger the first encounter.</p>
+            <div class="actions">
+              <button id="fight-btn" disabled>Fight</button>
+              <button id="capture-btn" disabled>Capture</button>
+            </div>
+          </div>
+          <div class="card">
+            <h2>Run State</h2>
+            <div class="actions">
+              <button id="save-btn">Save Receipt</button>
+              <button id="reload-btn">Reload Save</button>
+            </div>
+            <pre id="payload" class="payload">No battle payload yet.</pre>
+          </div>
+          <div class="card">
+            <h2>Log</h2>
+            <ul id="log" class="log"></ul>
+          </div>
+        </aside>
+      </section>
+    </main>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
