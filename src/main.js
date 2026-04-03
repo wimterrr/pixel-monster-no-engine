@@ -11,6 +11,7 @@ const fightButton = document.querySelector("#fight-btn");
 const captureButton = document.querySelector("#capture-btn");
 const saveButton = document.querySelector("#save-btn");
 const reloadButton = document.querySelector("#reload-btn");
+const moveButtons = Array.from(document.querySelectorAll("[data-move]"));
 
 function createInitialState(bundle) {
   const startCheckpoint = bundle.checkpoints.find(
@@ -135,6 +136,11 @@ function movePlayer(state, dx, dy) {
   }
 }
 
+function attemptMove(state, dx, dy) {
+  movePlayer(state, dx, dy);
+  syncUi(state);
+}
+
 function resolveFight(state) {
   if (!state.battle) {
     return;
@@ -229,9 +235,48 @@ window.addEventListener("keydown", (event) => {
   }
 
   event.preventDefault();
-  movePlayer(state, move[0], move[1]);
-  syncUi(state);
+  attemptMove(state, move[0], move[1]);
 });
+
+const buttonMoves = {
+  up: [0, -1],
+  down: [0, 1],
+  left: [-1, 0],
+  right: [1, 0]
+};
+
+let moveInterval = null;
+
+function stopMoveRepeat() {
+  if (moveInterval) {
+    clearInterval(moveInterval);
+    moveInterval = null;
+  }
+}
+
+function startMoveRepeat(dx, dy) {
+  stopMoveRepeat();
+  attemptMove(state, dx, dy);
+  moveInterval = setInterval(() => attemptMove(state, dx, dy), 140);
+}
+
+for (const button of moveButtons) {
+  const dir = button.dataset.move;
+  const move = buttonMoves[dir];
+  if (!move) {
+    continue;
+  }
+
+  button.addEventListener("pointerdown", (event) => {
+    event.preventDefault();
+    button.setPointerCapture?.(event.pointerId);
+    startMoveRepeat(move[0], move[1]);
+  });
+
+  button.addEventListener("pointerup", stopMoveRepeat);
+  button.addEventListener("pointercancel", stopMoveRepeat);
+  button.addEventListener("pointerleave", stopMoveRepeat);
+}
 
 fightButton.addEventListener("click", () => {
   resolveFight(state);

@@ -17,7 +17,15 @@
         </p>
       </section>
       <section class="playfield">
-        <canvas id="game" width="320" height="256" aria-label="Route01 canvas"></canvas>
+        <div class="stage">
+          <canvas id="game" width="320" height="256" aria-label="Route01 canvas"></canvas>
+          <div class="mobile-controls" role="group" aria-label="Movement controls">
+            <button class="dpad up" data-move="up" type="button">UP</button>
+            <button class="dpad left" data-move="left" type="button">LEFT</button>
+            <button class="dpad down" data-move="down" type="button">DOWN</button>
+            <button class="dpad right" data-move="right" type="button">RIGHT</button>
+          </div>
+        </div>
         <aside class="panel">
           <div class="card">
             <h2>Reload Receipt</h2>
