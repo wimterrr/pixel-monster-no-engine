@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "out": "assets/replicate/hero-idle.png",
+      "model": "retro-diffusion/rd-plus",
+      "style": "topdown_character",
+      "width": 256,
+      "height": 256,
+      "remove_bg": true,
+      "return_spritesheet": false,
+      "prompt": "top-down pixel hero character, JRPG style, simple readable silhouette, limited palette, standing idle, no shadow, transparent background"
+    }
+  ]
+}
+
