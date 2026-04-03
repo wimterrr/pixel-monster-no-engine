@@ -226,7 +226,7 @@ function reloadState(state) {
 let bundle;
 try {
   const primaryUrl = new URL("./generated/Route01.bundle.json", window.location.href);
-  primaryUrl.searchParams.set("v", "1");
+  primaryUrl.searchParams.set("v", "2");
   let response = await fetch(primaryUrl.toString(), { cache: "no-store" });
   let attempted = response.url || primaryUrl.toString();
 
