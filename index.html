@@ -4,6 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pixel Monster No Engine</title>
+    <script>
+      // GitHub Pages sometimes gets opened without a trailing slash, which breaks relative asset URLs.
+      (function () {
+        var path = window.location.pathname || "";
+        var last = path.split("/").pop() || "";
+        var looksLikeFile = last.indexOf(".") !== -1;
+        if (!looksLikeFile && path && !path.endsWith("/")) {
+          window.location.replace(path + "/" + window.location.search + window.location.hash);
+        }
+      })();
+    </script>
     <link rel="stylesheet" href="./src/styles.css" />
   </head>
   <body>
