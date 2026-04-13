@@ -1,0 +1,34 @@
+{
+  "built_at": "2026-04-13T00:48:49.466Z",
+  "route_id": "Route01",
+  "files": {
+    "index.html": {
+      "root_sha256": "bc28ba9a765a67ed086ca16ae5a1d478c815647869948b9c09f2cc9e2220abc2",
+      "docs_sha256": "bc28ba9a765a67ed086ca16ae5a1d478c815647869948b9c09f2cc9e2220abc2"
+    },
+    "src/main.js": {
+      "root_sha256": "5f965148cfd6bc6f69ea9d8ee32c3b5975d1ec029b6b9a7b41d86fc05eade580",
+      "docs_sha256": "5f965148cfd6bc6f69ea9d8ee32c3b5975d1ec029b6b9a7b41d86fc05eade580"
+    },
+    "src/render.js": {
+      "root_sha256": "fd528dd3ef372c477700f18db4ef21931b6ee19530f80d6df285f72e95c37fcc",
+      "docs_sha256": "fd528dd3ef372c477700f18db4ef21931b6ee19530f80d6df285f72e95c37fcc"
+    },
+    "src/save.js": {
+      "root_sha256": "5ad480a879fa6c8b417c7d8f71027c96688c10290a73252d88c831afc13373b6",
+      "docs_sha256": "5ad480a879fa6c8b417c7d8f71027c96688c10290a73252d88c831afc13373b6"
+    },
+    "src/sprites.js": {
+      "root_sha256": "ffc98cf99a3370ec83bc39cf89f249b7e0c8ae7257a19fec09439cafad10247e",
+      "docs_sha256": "ffc98cf99a3370ec83bc39cf89f249b7e0c8ae7257a19fec09439cafad10247e"
+    },
+    "src/styles.css": {
+      "root_sha256": "9249ea2dd6de597e425a77be175c57dbee0e84b475e45928f239270c70407e77",
+      "docs_sha256": "9249ea2dd6de597e425a77be175c57dbee0e84b475e45928f239270c70407e77"
+    },
+    "generated/Route01.bundle.json": {
+      "root_sha256": "ca17014ae5985b2125bba40160ee343c502a22137997427f4cea5f3655a99599",
+      "docs_sha256": "ca17014ae5985b2125bba40160ee343c502a22137997427f4cea5f3655a99599"
+    }
+  }
+}
