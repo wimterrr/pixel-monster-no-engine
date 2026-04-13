@@ -6,10 +6,13 @@
     "build:content": "node scripts/build-content.mjs",
     "build:pages": "node scripts/build-pages.mjs",
     "deploy": "node scripts/deploy.mjs",
+    "replay:proof": "npm run build:content && node scripts/replay-proof.mjs",
+    "verify:deploy": "node scripts/verify-deploy.mjs",
+    "verify:pages": "node scripts/verify-pages.mjs",
     "replicate": "node scripts/replicate-generate.mjs",
     "replicate:batch": "node scripts/replicate-batch.mjs",
     "test": "npm run build:content && node --test tests/*.test.mjs",
-    "check": "npm run build:content && npm test",
+    "check": "npm run build:content && npm test && npm run verify:pages",
     "serve": "python3 -m http.server 4173",
     "serve:docs": "python3 -m http.server 4173 --directory docs"
   }

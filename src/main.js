@@ -29,8 +29,9 @@ function createInitialState(bundle) {
     sprites: createSprites(),
     externalSprites: {},
     render: {
-      // Keep it simple for now: 16px tiles * 3 = 48px per tile.
-      zoom: 3
+      // Pixel RPG defaults: fixed viewport + camera follow.
+      zoom: 4,
+      viewTiles: { width: 10, height: 9 }
     },
     checkpointId: startCheckpoint.id,
     playerTile: { ...startCheckpoint.tile },
@@ -241,7 +242,7 @@ function reloadState(state) {
 let bundle;
 try {
   const primaryUrl = new URL("./generated/Route01.bundle.json", window.location.href);
-  primaryUrl.searchParams.set("v", "3");
+  primaryUrl.searchParams.set("v", "4");
   let response = await fetch(primaryUrl.toString(), { cache: "no-store" });
   let attempted = response.url || primaryUrl.toString();
 
@@ -273,8 +274,14 @@ const state = createInitialState(bundle);
 function syncCanvasSize() {
   const tileSize = state.bundle.tileSize || 16;
   const zoom = state.render?.zoom || 3;
-  canvas.width = state.bundle.map.width * tileSize * zoom;
-  canvas.height = state.bundle.map.height * tileSize * zoom;
+  const requested = state.render?.viewTiles || { width: state.bundle.map.width, height: state.bundle.map.height };
+  const view = {
+    width: Math.min(state.bundle.map.width, requested.width),
+    height: Math.min(state.bundle.map.height, requested.height)
+  };
+  state.render.viewTiles = view;
+  canvas.width = view.width * tileSize * zoom;
+  canvas.height = view.height * tileSize * zoom;
 }
 
 syncCanvasSize();
@@ -289,7 +296,7 @@ async function tryLoadImage(url) {
 
 // Non-blocking: if Replicate sprites exist, use them for battle flair.
 try {
-  state.externalSprites.sprout = await tryLoadImage("./assets/replicate/sprout3.png?v=2");
+  state.externalSprites.sprout = await tryLoadImage("./assets/replicate/sprout3.png?v=3");
   pushLog(state, "Loaded external sprout sprite.");
 } catch {
   // Ignore: external assets are optional.

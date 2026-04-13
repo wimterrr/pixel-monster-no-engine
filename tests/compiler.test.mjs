@@ -1,13 +1,17 @@
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
 import { compileMap, CompileError } from "../scripts/lib/compiler.mjs";
+import { createPagesReceipt, PAGE_SURFACE } from "../scripts/lib/pages-receipt.mjs";
 import { deserializeSave, serializeSave } from "../src/save.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
+const execFileAsync = promisify(execFile);
 
 function compile(entry) {
   return compileMap({
@@ -44,6 +48,20 @@ test("generated bundle exists after build step", async () => {
   const bundle = JSON.parse(raw);
 
   assert.equal(bundle.routeId, "Route01");
+});
+
+test("docs artifact receipt matches the current shipped proof surface", async () => {
+  const docsDir = path.resolve(rootDir, "docs");
+  const receiptPath = path.resolve(docsDir, "build-receipt.json");
+  const receipt = JSON.parse(await fs.readFile(receiptPath, "utf8"));
+  const expected = await createPagesReceipt({ rootDir, docsDir });
+
+  assert.equal(receipt.route_id, "Route01");
+
+  for (const relativePath of PAGE_SURFACE) {
+    assert.deepEqual(receipt.files[relativePath], expected.files[relativePath]);
+    assert.equal(receipt.files[relativePath].root_sha256, receipt.files[relativePath].docs_sha256);
+  }
 });
 
 test("save contract reloads checkpoint, roster delta, and spent orb state", async () => {
@@ -218,4 +236,19 @@ test("save contract rejects battle payload roster drift before runtime state mut
       }),
     /does not match saved roster/
   );
+});
+
+test("proof replay writes a receipt that freezes the Route01 save proof and compiler failure", async () => {
+  await execFileAsync("node", ["scripts/replay-proof.mjs"], { cwd: rootDir });
+
+  const receiptPath = path.resolve(rootDir, "outputs/latest-proof-replay.json");
+  const receipt = JSON.parse(await fs.readFile(receiptPath, "utf8"));
+
+  assert.equal(receipt.ok, true);
+  assert.equal(receipt.route_id, "Route01");
+  assert.equal(receipt.replay.checkpoint_id, "route01_start");
+  assert.deepEqual(receipt.replay.roster, ["sprout"]);
+  assert.equal(receipt.replay.capture_orb, 0);
+  assert.equal(receipt.replay.last_battle_outcome, "captured");
+  assert.match(receipt.compiler_failure.error, /missing_encounter/);
 });

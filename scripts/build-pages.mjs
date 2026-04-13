@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { compileMap, writeBundle } from "./lib/compiler.mjs";
+import { createPagesReceipt, PAGE_RECEIPT_PATH } from "./lib/pages-receipt.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
@@ -52,5 +53,12 @@ try {
   // assets/ is optional
 }
 await fs.writeFile(path.resolve(docsDir, ".nojekyll"), "", "utf8");
+
+const receipt = await createPagesReceipt({ rootDir, docsDir });
+await fs.writeFile(
+  path.resolve(docsDir, PAGE_RECEIPT_PATH),
+  `${JSON.stringify(receipt, null, 2)}\n`,
+  "utf8"
+);
 
 console.log("Built docs/ for GitHub Pages.");
