@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "checked_at": "2026-05-07T22:31:39.458Z",
+  "route_id": "Route01",
+  "generated_bundle_sha256": "bc962374377ec2345488aa42f89737c176f9e82de653b819f036e7806534960c",
+  "source_hashes": {
+    "content/schema/route-schema.json": "62e1f53af04c786c916eea40c3994915b37ce9e0852584e45c80cc4918a9e114",
+    "content/raw/monsters.json": "5b2915ed5897b3e770d103cfb19e66b49a904d298b71e9dcd6a05a46f9f89a3e",
+    "content/raw/encounters.json": "5a3f084332527fd24135cd7a4036037caa9e9872b705a6738c46a569941da57f",
+    "content/raw/maps/Route01.map.json": "524b41e74d4767e88c9aa034e3259581316eacbb14d5add81be7806f2c9ec52a",
+    "content/raw/maps/Route01.broken.map.json": "db4498a043ab6bf0ea4963e0806d7944874f2cb8843402793a334df0e0e7bbf6",
+    "src/save.js": "5ad480a879fa6c8b417c7d8f71027c96688c10290a73252d88c831afc13373b6"
+  },
+  "replay": {
+    "checkpoint_id": "route01_start",
+    "roster": [
+      "sprout"
+    ],
+    "capture_orb": 0,
+    "last_battle_outcome": "captured",
+    "last_battle_encounter_id": "route01_sprout"
+  },
+  "compiler_failure": {
+    "map": "content/raw/maps/Route01.broken.map.json",
+    "error": "Encounter zone \"Broken Grass\" references missing encounter \"missing_encounter\"."
+  }
+}

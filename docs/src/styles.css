@@ -280,6 +280,25 @@ body {
   margin: 0;
 }
 
+.proof-note,
+.proof-link-row {
+  margin-bottom: 0;
+}
+
+.proof-note {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.proof-link-row {
+  margin-top: 12px;
+}
+
+.proof-link-row a {
+  color: var(--accent);
+  font-weight: 700;
+}
+
 .actions {
   display: flex;
   gap: 10px;

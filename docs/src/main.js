@@ -4,6 +4,9 @@ import { createSprites } from "./sprites.js";
 
 const canvas = document.querySelector("#game");
 const ctx = canvas.getContext("2d");
+const proofReplayNode = document.querySelector("#proof-replay");
+const proofNoteNode = document.querySelector("#proof-note");
+const proofLinkNode = document.querySelector("#proof-link");
 const receiptNode = document.querySelector("#receipt");
 const battleTextNode = document.querySelector("#battle-text");
 const payloadNode = document.querySelector("#payload");
@@ -117,6 +120,53 @@ function syncUi(state) {
     <span><strong>Roster</strong> ${state.roster.length}</span>
   `;
   drawGame(ctx, state);
+}
+
+function syncProofReplay(receipt) {
+  if (!proofReplayNode || !proofNoteNode) {
+    return;
+  }
+
+  if (!receipt?.ok) {
+    proofReplayNode.innerHTML = "";
+    proofNoteNode.textContent = "Published replay receipt is missing or invalid.";
+    return;
+  }
+
+  const rosterNames = Array.isArray(receipt.replay?.roster) && receipt.replay.roster.length > 0
+    ? receipt.replay.roster.join(", ")
+    : "none";
+  proofReplayNode.innerHTML = `
+    <dt>Checked At</dt><dd>${receipt.checked_at ?? "unknown"}</dd>
+    <dt>Checkpoint</dt><dd>${receipt.replay?.checkpoint_id ?? "unknown"}</dd>
+    <dt>Roster Delta</dt><dd>${rosterNames}</dd>
+    <dt>Capture Orbs</dt><dd>${receipt.replay?.capture_orb ?? "unknown"}</dd>
+    <dt>Compiler Fail</dt><dd>${receipt.compiler_failure?.map ?? "unknown"}</dd>
+  `;
+  proofNoteNode.textContent =
+    receipt.compiler_failure?.error ?? "Published replay receipt loaded.";
+}
+
+async function loadProofReplay() {
+  if (!proofReplayNode || !proofNoteNode) {
+    return;
+  }
+
+  const proofUrl = new URL("./latest-proof-replay.json", window.location.href);
+  proofUrl.searchParams.set("v", "5");
+  proofLinkNode?.setAttribute("href", proofUrl.toString());
+
+  try {
+    const response = await fetch(proofUrl.toString(), { cache: "no-store" });
+    if (!response.ok) {
+      throw new Error(`Proof replay fetch failed: ${response.status}`);
+    }
+    const receipt = await response.json();
+    syncProofReplay(receipt);
+  } catch (error) {
+    proofReplayNode.innerHTML = "";
+    proofNoteNode.textContent = String(error?.message || error);
+  }
 }
 
 function triggerEncounter(state, zone) {
@@ -388,6 +438,7 @@ reloadButton.addEventListener("click", () => {
 });
 
 syncUi(state);
+await loadProofReplay();
 
 function setPanelOpen(open) {
   if (!panelNode || !panelBackdrop) {
